@@ -97,6 +97,6 @@ public class Flashlight : MonoBehaviour
             batteryProgressBar.fillAmount = currentBatteryTime / maxBatteryTime;
 
         if (batteryCountText != null)
-            batteryCountText.text = "Baterky: " + InventoryManager.Instance.GetItemCount("Battery");
+            batteryCountText.text = "Baterries: " + InventoryManager.Instance.GetItemCount("Battery");
     }
 }
