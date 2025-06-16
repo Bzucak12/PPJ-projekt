@@ -14,35 +14,65 @@ public class PlayerInteraction : MonoBehaviour
 
         if (Physics.Raycast(ray, out hit, interactDistance))
         {
+            // Kontrola pro sebratelné pøedmìty
             if (hit.collider.TryGetComponent<ItemPickup>(out var item))
             {
-                interactionHintText.text = "Pick Up Item";
+                interactionHintText.text = "Pick Up Item"; // Mùžete si pøeložit
                 interactionHintText.gameObject.SetActive(true);
 
                 if (Input.GetKeyDown(KeyCode.E))
                 {
                     item.PickUp();
-                    interactionHintText.gameObject.SetActive(false);
+                    // Nápovìdu není tøeba skrývat zde, skryje se v dalším snímku, pokud už nic nedetekujeme
                 }
             }
+            // Kontrola pro sebratelné klíèe
             else if (hit.collider.TryGetComponent<KeyPickup>(out var key))
             {
-                interactionHintText.text = "Pick Up Key";
+                interactionHintText.text = "Pick Up Item"; // Mùžete si pøeložit
                 interactionHintText.gameObject.SetActive(true);
 
                 if (Input.GetKeyDown(KeyCode.E))
                 {
                     key.PickUp();
-                    interactionHintText.gameObject.SetActive(false);
                 }
             }
+            // --- NOVÁ ÈÁST PRO SKØÍÒKU ---
+            // Kontrola pro skøíòku
+            else if (hit.collider.TryGetComponent<LockerController>(out var locker))
+            {
+                // Zobrazíme nápovìdu a nastavíme správný text podle stavu skøíòky
+                interactionHintText.gameObject.SetActive(true);
+
+                if (locker.isLocked)
+                {
+                    interactionHintText.text = "Is Locked";
+                }
+                else if (locker.IsOpen)
+                {
+                    interactionHintText.text = "Close Locker";
+                }
+                else
+                {
+                    interactionHintText.text = "Open Locker";
+                }
+
+                // Pokud hráè stiskne klávesu E, zavoláme metodu Interact() na skøíòce
+                if (Input.GetKeyDown(KeyCode.E))
+                {
+                    locker.Interact();
+                }
+            }
+            // --- KONEC NOVÉ ÈÁSTI ---
             else
             {
+                // Pokud se díváme na nìco, s èím nelze interagovat, skryjeme nápovìdu
                 interactionHintText.gameObject.SetActive(false);
             }
         }
         else
         {
+            // Pokud se nedíváme na nic, skryjeme nápovìdu
             interactionHintText.gameObject.SetActive(false);
         }
     }

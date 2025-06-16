@@ -12,23 +12,4 @@ public class KeyPickup : MonoBehaviour
         InventoryManager.Instance.AddKey(keyType);
         Destroy(gameObject);
     }
-
-    void Update()
-    {
-        if (IsLookedAt(out RaycastHit hit))
-        {
-            if (Input.GetKeyDown(KeyCode.E))
-            {
-                InventoryManager.Instance.AddKey(keyType); // přetypování na int
-                Destroy(gameObject);
-            }
-        }
-    }
-
-
-    bool IsLookedAt(out RaycastHit hit)
-    {
-        Camera cam = Camera.main;
-        return Physics.Raycast(cam.transform.position, cam.transform.forward, out hit, pickupDistance) && hit.transform == transform;
-    }
 }
