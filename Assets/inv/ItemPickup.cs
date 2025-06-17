@@ -1,12 +1,22 @@
 using UnityEngine;
-
+[RequireComponent(typeof(AudioSource))]
 public class ItemPickup : MonoBehaviour
 {
     public string itemName = "Lektvar";
     public bool isKey = false;
     public KeyPickup.KeyType keyType;  // místo int
 
+    [Header("Zvukové efekty")]
+    public AudioClip pickUpSound;
+
     public float pickupDistance = 3f;
+
+    private AudioSource audioSource;
+
+    void Start()
+    {
+        audioSource = GetComponent<AudioSource>();
+    }
 
     void Update()
     {
@@ -21,6 +31,10 @@ public class ItemPickup : MonoBehaviour
                 else
                 {
                     InventoryManager.Instance.AddItem(itemName);
+                }
+                if (pickUpSound != null)
+                {
+                    audioSource.PlayOneShot(pickUpSound);
                 }
 
                 Destroy(gameObject);

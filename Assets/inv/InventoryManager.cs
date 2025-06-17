@@ -115,4 +115,28 @@ public class InventoryManager : MonoBehaviour
         keyCounts[index]++;
         keyCounters[index].text = keyCounts[index] + " x";
     }
+
+    public bool HasKey(LockerController.RequiredKey requiredKeyType)
+    {
+        int index = (int)requiredKeyType; // převedeme enum na číslo
+
+        if (index < 0 || index >= keyCounts.Length) return false;
+
+        return keyCounts[index] > 0;
+    }
+
+    public bool HasKeyElevator(ElevatorDoor.RequiredKey requiredKeyType)
+    {
+        int index = (int)requiredKeyType; // převedeme enum na číslo
+
+        if (index < 0 || index >= keyCounts.Length) return false;
+
+        return keyCounts[index] > 0;
+    }
+
+    public bool HasExitKey()
+    {
+        if (keyCounts[0] <= 0) return false; // Zlatý klíč je potřeba pro východ
+        else return true; // Máme zlatý klíč
+    }
 }

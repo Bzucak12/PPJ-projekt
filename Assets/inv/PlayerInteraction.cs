@@ -14,22 +14,22 @@ public class PlayerInteraction : MonoBehaviour
 
         if (Physics.Raycast(ray, out hit, interactDistance))
         {
-            // Kontrola pro sebratelné pøedmìty
+            // Kontrola pro sebratelnï¿½ pï¿½edmï¿½ty
             if (hit.collider.TryGetComponent<ItemPickup>(out var item))
             {
-                interactionHintText.text = "Pick Up Item"; // Mùžete si pøeložit
+                interactionHintText.text = "Pick Up Item"; // Mï¿½ï¿½ete si pï¿½eloï¿½it
                 interactionHintText.gameObject.SetActive(true);
 
                 if (Input.GetKeyDown(KeyCode.E))
                 {
                     item.PickUp();
-                    // Nápovìdu není tøeba skrývat zde, skryje se v dalším snímku, pokud už nic nedetekujeme
+                    // Nï¿½povï¿½du nenï¿½ tï¿½eba skrï¿½vat zde, skryje se v dalï¿½ï¿½m snï¿½mku, pokud uï¿½ nic nedetekujeme
                 }
             }
-            // Kontrola pro sebratelné klíèe
+            // Kontrola pro sebratelnï¿½ klï¿½ï¿½e
             else if (hit.collider.TryGetComponent<KeyPickup>(out var key))
             {
-                interactionHintText.text = "Pick Up Item"; // Mùžete si pøeložit
+                interactionHintText.text = "Pick Up Item"; // Mï¿½ï¿½ete si pï¿½eloï¿½it
                 interactionHintText.gameObject.SetActive(true);
 
                 if (Input.GetKeyDown(KeyCode.E))
@@ -37,42 +37,81 @@ public class PlayerInteraction : MonoBehaviour
                     key.PickUp();
                 }
             }
-            // --- NOVÁ ÈÁST PRO SKØÍÒKU ---
-            // Kontrola pro skøíòku
+            // --- NOVï¿½ ï¿½ï¿½ST PRO SKï¿½ï¿½ï¿½KU ---
+            // Kontrola pro skï¿½ï¿½ï¿½ku
             else if (hit.collider.TryGetComponent<LockerController>(out var locker))
             {
-                // Zobrazíme nápovìdu a nastavíme správný text podle stavu skøíòky
+                // Zobrazï¿½me nï¿½povï¿½du a nastavï¿½me sprï¿½vnï¿½ text podle stavu skï¿½ï¿½ï¿½ky
                 interactionHintText.gameObject.SetActive(true);
 
                 if (locker.isLocked)
                 {
-                    interactionHintText.text = "Is Locked";
+
+                    interactionHintText.text = "Locked";
                 }
                 else if (locker.IsOpen)
                 {
-                    interactionHintText.text = "Close Locker";
+                    interactionHintText.text = "Close";
                 }
                 else
                 {
-                    interactionHintText.text = "Open Locker";
+                    interactionHintText.text = "Open";
                 }
 
-                // Pokud hráè stiskne klávesu E, zavoláme metodu Interact() na skøíòce
+                // Pokud hrï¿½ï¿½ stiskne klï¿½vesu E, zavolï¿½me metodu Interact() na skï¿½ï¿½ï¿½ce
                 if (Input.GetKeyDown(KeyCode.E))
                 {
                     locker.Interact();
                 }
             }
-            // --- KONEC NOVÉ ÈÁSTI ---
+            // --- KONEC NOVï¿½ ï¿½ï¿½STI ---
+            else if (hit.collider.TryGetComponent<ElevatorDoor>(out var elevator))
+            {
+                // Zobrazï¿½me nï¿½povï¿½du a nastavï¿½me sprï¿½vnï¿½ text podle stavu skï¿½ï¿½ï¿½ky
+                interactionHintText.gameObject.SetActive(true);
+
+                if (elevator.isLocked)
+                {
+                    
+                    interactionHintText.text = "Locked";
+                }
+                else if (elevator.IsOpen)
+                {
+                    interactionHintText.text = "Close";
+                }
+                else
+                {
+                    interactionHintText.text = "Open";
+                }
+
+                // Pokud hrï¿½ï¿½ stiskne klï¿½vesu E, zavolï¿½me metodu Interact() na skï¿½ï¿½ï¿½ce
+                if (Input.GetKeyDown(KeyCode.E))
+                {
+                    elevator.Interact();
+                }
+            }
+            else if (hit.collider.TryGetComponent<ElevatorTeleporter>(out var teleport))
+            {
+                // Zobrazï¿½me nï¿½povï¿½du a nastavï¿½me sprï¿½vnï¿½ text podle stavu skï¿½ï¿½ï¿½ky
+                interactionHintText.gameObject.SetActive(true);
+
+                interactionHintText.text = "Teleport";
+
+                // Pokud hrï¿½ï¿½ stiskne klï¿½vesu E, zavolï¿½me metodu Interact() na skï¿½ï¿½ï¿½ce
+                if (Input.GetKeyDown(KeyCode.E))
+                {
+                    teleport.TeleportPlayer();
+                }
+            }
             else
             {
-                // Pokud se díváme na nìco, s èím nelze interagovat, skryjeme nápovìdu
+                // Pokud se dï¿½vï¿½me na nï¿½co, s ï¿½ï¿½m nelze interagovat, skryjeme nï¿½povï¿½du
                 interactionHintText.gameObject.SetActive(false);
             }
         }
         else
         {
-            // Pokud se nedíváme na nic, skryjeme nápovìdu
+            // Pokud se nedï¿½vï¿½me na nic, skryjeme nï¿½povï¿½du
             interactionHintText.gameObject.SetActive(false);
         }
     }

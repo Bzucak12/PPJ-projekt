@@ -69,7 +69,19 @@ public class PlayerMovement : MonoBehaviour
 
         characterController.Move(moveDirection * Time.deltaTime);
 
-       
+
     }
+
+    public void Teleport(Vector3 position)
+    {
+        if (canMove)
+        {
+            characterController.enabled = false;
+            transform.position = position;
+            characterController.enabled = true;
+        }
+    }
+    
+    
 }
 

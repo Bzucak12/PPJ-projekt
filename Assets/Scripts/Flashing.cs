@@ -6,7 +6,7 @@ public class Flashing : MonoBehaviour
 {
     Light light;
     float minSpeed = 0.3f;
-    float maxSpeed = 0.8f;
+    float maxSpeed = 1.8f;
     float minInt = 1f;
     float maxInt = 50f;
     // Start is called once before the first execution of Update after the MonoBehaviour is created

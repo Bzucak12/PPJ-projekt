@@ -5,49 +5,34 @@ public class ElevatorTeleporter : MonoBehaviour
 {
     public Transform destination;
     public GameObject player;
-    public Animator doorAnimator;
+    public Animator doorAnimatorOriginalLeft;
+    public Animator doorAnimatorOriginalRight;
+    public Animator doorAnimatorDestinationLeft;
+    public Animator doorAnimatorDestinationRight;
 
-    private bool isPlayerInElevator = false;
-
-    void Update()
+    public void TeleportPlayer()
     {
-        if (isPlayerInElevator && Input.GetKeyDown(KeyCode.E))
-        {
-            StartCoroutine(TeleportPlayer());
-        }
-    }
+        //Zavři dveře (pokud máš animátor)
+        doorAnimatorOriginalLeft.SetTrigger("Close");
+        doorAnimatorOriginalRight.SetTrigger("Close");
 
-    private void OnTriggerEnter(Collider other)
-    {
-        if (other.CompareTag("Player"))
-        {
-            isPlayerInElevator = true;
-        }
-    }
-
-    private void OnTriggerExit(Collider other)
-    {
-        if (other.CompareTag("Player"))
-        {
-            isPlayerInElevator = false;
-        }
-    }
-
-    private IEnumerator TeleportPlayer()
-    {
-        // Zavři dveře (pokud máš animátor)
-        if (doorAnimator != null)
-            doorAnimator.SetTrigger("Close");
-
-        yield return new WaitForSeconds(1f); // čas na zavření dveří
+        // yield return new WaitForSeconds(1f); // čas na zavření dveří
 
         // Teleportuj hráče
         if (player != null && destination != null)
-            player.transform.position = destination.position;
+        {
+            //player.transform.position = destination.position;
+            PlayerMovement playerMovement = player.GetComponent<PlayerMovement>();
+            if (playerMovement != null)
+            {
+                playerMovement.Teleport(destination.position);
+            }
+        }
 
-        yield return new WaitForSeconds(1f); // čas na otevření dveří
+        //yield return new WaitForSeconds(1f); // čas na otevření dveří
 
-        if (doorAnimator != null)
-            doorAnimator.SetTrigger("Open");
+        doorAnimatorDestinationLeft.SetTrigger("Open");
+        doorAnimatorDestinationRight.SetTrigger("Open");
+        
     }
 }

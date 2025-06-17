@@ -6,13 +6,8 @@ public class InventoryUI : MonoBehaviour
     public GameObject inventoryPanel;
 
     public Button inventoryButton;
-    public Button mapButton;
-    public Button questButton;
 
     public GameObject inventoryPage;
-    public GameObject mapPage;
-    public GameObject questPage;
-
     public MouseLook mouseLook; // přiřaď v inspektoru (kamera s MouseLook)
 
     private bool isOpen = false;
@@ -48,13 +43,16 @@ public class InventoryUI : MonoBehaviour
     void ShowPage(GameObject page)
     {
         inventoryPage.SetActive(false);
-        mapPage.SetActive(false);
-        questPage.SetActive(false);
         page.SetActive(true);
     }
 
     // Pokud chceš, můžeš tlačítka připojit v inspektoru k těmto metodám:
     public void ShowInventoryPage() => ShowPage(inventoryPage);
-    public void ShowMapPage() => ShowPage(mapPage);
-    public void ShowQuestPage() => ShowPage(questPage);
+
+    public void EnableContorol()
+    {
+        Cursor.lockState = CursorLockMode.None;
+        Cursor.visible = true;
+        mouseLook.enabled = false;
+    }
 }
